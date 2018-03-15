@@ -25,17 +25,22 @@ app.get("/", function(req, res) {
 
 app.get("/scrape", function(req, res) {
 	axios.get("https://www.vice.com/en_us").then(function(response) {
-		var = $ = cheerio.load(response.data);
-
-		$(".grid_wrapper_card").each(function(i, element) {
+		var $ = cheerio.load(response.data);
+		console.log("I'm here");
+		console.log($(".grid__wrapper__card").length);
+		$(".grid__wrapper__card").each(function(i, element) {
 			var result = {};
 
-			result.topic = $(this).children("div").text();
+			result.title = $(this).find(".grid-card-linkout--site-name").text();
+			result.link = $(this).attr("href");
+			console.log("result.topic", result.title);
+			console.log("result.topic", result.link);
 			// result.title = $(this).children("")
 			db.Article.create(result).then(function(dbArticle) {
 				console.log(dbArticle);
 			}).catch(function(err) {
-				return res.json(err);
+				console.log(err);
+				// return res.json(err);
 			});
 		});
 		res.send("Scraped");
