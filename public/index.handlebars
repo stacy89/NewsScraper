@@ -17,4 +17,24 @@
     <p class="lead">Scrape the leading Photography enthusiast website for exiting articles</p>
     <p><a class="btn btn-lg btn-success" href="/scrape" role="button">Fetch the latest !</a></p>
   </div>
+  
+  {{#each result}}
+    <div class="card news-section">
+      <a href="{{this.link}}">
+        <h4 class="card-header">{{this.title}}</h4>
+      </a>
+      
+      <div class="card-block">
+        <a href="{{this.link}}">Click Me
+          
+        </a><br>
+        <a href="/articles/{{this._id}}" class="btn btn-primary">Comment</a>
+      </div>
+    </div><br><br> 
+  {{/each}}
+
+
+
+
+
 </div>
