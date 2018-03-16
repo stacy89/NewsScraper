@@ -1,3 +1,0 @@
-$getJSON("/articles", function(data) {
-	
-});

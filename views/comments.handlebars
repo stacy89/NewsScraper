@@ -1,0 +1,50 @@
+<div class="container">
+   <nav class="navbar navbar-expand-lg  navbar-light bg-dark">
+    <div class="collapse navbar-collapse" id=" navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link text-white" href="/articles">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/scrape">Scrape Vice</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <hr>
+
+  <h1>{{result.title}}</h1>
+
+  
+
+  {{#unless result.comment}}<br><br>
+    <h6>There are no comments just yet. Add yours below!</h6>
+  {{/unless}}
+ 
+
+  <ul>
+    {{#each result.comment}}
+    <li style="list-style: none">
+      <h5>Name: {{this.name}} </h5>
+      <p>Message: {{this.body}}</p>
+      <button class="delete-button btn btn-secondary" data-comment="{{this._id}}">Delete Comment</button>
+    </li>
+    {{/each}}
+  </ul>
+  
+  <div class="row">
+    <div class="col-md-6 text-center ml-3">
+    <form method="POST" action="/articles/{{result._id}}">
+      <div class="form-group row">
+        <label for="name" class="col-form-label">Name</label>
+        <input class="form-control" type="text" name="name" id="name" required>
+      </div>
+      <div class="form-group row">
+        <label for="body">Message</label>
+        <textarea class="form-control" id="body" name="body" rows="3" required></textarea>
+      </div>
+      <button class="btn btn-light addComment" type="submit">Submit</button>
+    </form>
+  </div>
+  </div>
+</div>  

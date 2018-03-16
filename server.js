@@ -32,8 +32,9 @@ app.get("/scrape", function(req, res) {
 
 			var result = {};
 
-				result.title = $(this).find(".grid-card-linkout--site-name").text();
-				result.link = $(this).attr("href");
+				result.topic = $(this).find(".grid-card-linkout--site-name").text();
+				result.title = $(this).find(".grid__wrapper__card__text__title").text();
+				result.summary = $(this).find(".grid__wrapper__card__text__summary").text();				result.link = $(this).attr("href");
 			
 				db.Article.create(result).then(function(dbArticle) {
 				// console.log(dbArticle);
@@ -56,7 +57,8 @@ app.get("/articles", function(req, res) {
 
 app.get("/articles/:id", function(req, res) {
 	db.Article.findOne({_id: req.params.id})
-	.populate("comment").then(function(dbArticle) {
+	.populate("comment")
+	.then(function(dbArticle) {
 		res.render("comments", {result: dbArticle});
 	}).catch(function(err) {
 		console.log(err);
@@ -64,7 +66,8 @@ app.get("/articles/:id", function(req, res) {
 });
 
 app.post("/articles/:id", function(req, res) {
-	db.Comment.create(req.body).then(function(dbComment) {
+	db.Comment.create(req.body)
+	.then(function(dbComment) {
 		return db.Article.findOneAndUpdate({_id: req.params.id}, {comment: dbComment._id}, {new: true});
 	}).then(function(dbArticle) {
 		console.log(dbArticle);
@@ -73,6 +76,19 @@ app.post("/articles/:id", function(req, res) {
 	});
 });
 
+// app.delete("/articles/:id/:commentid", function(req, res) {
+// 	db.Comment.findByIdAndRemove(req.params.commentid).then(function(dbComment) {
+// 		db.Article.findOneAndUpdate({
+// 			_id: req.params.id
+// 		}, {
+// 			$set: {
+// 				comment: dbArticle._id
+// 			}
+// 		}).catch(function(err) {
+// 			console.log(err);
+// 		});
+// 	})
+// });
 
 app.listen(PORT, function() {
 	console.log("App running on port " + PORT + ".");

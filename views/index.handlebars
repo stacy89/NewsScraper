@@ -1,16 +1,32 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="/articles">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/scrape">Scrape Vice</a>
-      </li>
-    </ul>
+<div class="container">
+  <nav class="navbar navbar-expand-lg  navbar-light bg-dark">
+    <div class="collapse navbar-collapse" id=" navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link text-white" href="/articles">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/scrape">Scrape Vice</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="jumbotron jumbotron-fluid bg-white">
+    <div class="container">
+      <h1 class="display-4">Vice News</h1>
+    </div>
   </div>
-</nav>
+  
+  {{#each result}}
+    <div class="card news-section">
+      <h4 class="card-header">{{this.topic}}</h4>
+      <div class="card-block">
+        <p class="p-3">{{this.title}}</p>
+        <p class="p-3">{{this.summary}}</p>
+        <a href="{{this.link}}" class="btn btn-light" >Get Full Story</a>
+        <a href="/articles/{{this._id}}" class="btn btn-light">Add comment</a>
+      </div>
+    </div><br><br> 
+  {{/each}}
+</div>
