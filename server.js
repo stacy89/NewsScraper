@@ -17,15 +17,12 @@ app.use(logger("dev"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 mongoose.Promise = Promise;
 mongoose.connect("mongodb://localhost/newsScraperdb", {useMongoClient: true});
 
-app.get("/", function(req, res) {
-	res.redirect("/articles");
-});
 
 app.get("/scrape", function(req, res) {
 	axios.get("https://www.vice.com/en_us").then(function(response) {
@@ -33,19 +30,16 @@ app.get("/scrape", function(req, res) {
 
 		$(".grid__wrapper__card").each(function(i, element) {
 
-			if (result.title && result.link) {
-
-				var result = {};
+			var result = {};
 
 				result.title = $(this).find(".grid-card-linkout--site-name").text();
 				result.link = $(this).attr("href");
 			
 				db.Article.create(result).then(function(dbArticle) {
-				console.log(dbArticle);
+				// console.log(dbArticle);
 				}).catch(function(err) {
 				console.log(err);
 				});
-			}
 		});
 		res.redirect("/articles")
 	});
@@ -53,6 +47,7 @@ app.get("/scrape", function(req, res) {
 
 app.get("/articles", function(req, res) {
 	db.Article.find({}).then(function(dbArticle) {
+		console.log(dbArticle);
 		res.render("index", {result: dbArticle});
 	}).catch(function(err) {
 		console.log(err);
